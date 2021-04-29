@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    image: ping:latest
+    environment:
+       URL_PONG: "http://pong:8081/pong"
+    depends_on:
+      - pong
+    ports:
+      - "8080:8080"
+
+  pong:
+     image: pong:latest
