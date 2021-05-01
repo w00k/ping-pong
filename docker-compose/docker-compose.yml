@@ -1,8 +1,8 @@
-version: "3.8"
+version: "3.0"
 
 services:
-  app:
-    image: ping:latest
+  ping:
+    image: w00kyx/ping:v1
     environment:
        URL_PONG: "http://pong:8081/pong"
     depends_on:
@@ -11,4 +11,4 @@ services:
       - "8080:8080"
 
   pong:
-     image: pong:latest
+     image: w00kyx/pong:v1
