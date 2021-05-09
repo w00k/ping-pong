@@ -110,33 +110,33 @@ Para bajar el docker-compose, solo se debe ejecutar el sigueinte comando en dent
 docker-compose down 
 ```
 
-## Usando K8S
+# Usando K8S
 
 Para usar **k8s**, se puede armar el ambiente usando los templates en archivos **yaml**. En arvhivos encontrarás una sección asociado para el **deploy** y otro apartado para el **service**, adicionalmente el servicio pong está expuesto en el puerto 30001 y el servicio pong en el 30000, es decir se pueden consumir desde  forma local. 
 
 Para usar el apartado con **k8s**, es necesario crear un **namespace**, lo hice de esta forma porque es una buena practica. 
 
+## Desplegando en k8s
+
 ```bash
 kubectl create namespace pingpong
 ```
-
 Ahora podemos ingresar a la carpeta **k8s**. 
-
 ```bash
 cd k8s
 ```
 
-Y finalmente desplegamos, primero pong.
-
+Y desplegamos primero pong.
 ```bash
 kubectl apply -f pong.yaml
 ```
 
 Desplegamos ping. 
-
 ```bash
 kubectl apply -f ping.yaml
 ```
+
+## Revisando el estado de los pods
 
 Ahora podemos ver el estado de los pods. 
 
@@ -147,6 +147,8 @@ kubectl --namespace=pingpong get pod
 Debe aparecer algo similar a esta imagen.
 
 ![get pod](./img/k8s-get-pod.PNG)
+
+## Probando los servicios
 
 Para probar, para probar el servicio **ping** hay que ingresar a [http://localhost:30000/ping](http://localhost:30000/ping), la respuesta debería ser la siguiente.
 
@@ -159,6 +161,7 @@ Para probar el servicio **pong**, hay que ingresar a [http://localhost:30001/pon
 ```json
 {"message":"pong"}
 ```
+## Desinstalar
 
 Para desinstalar los **services** y el **deployments**, hay que ejecutar el comando **delete** por cada archivo **yaml** instalado.
 
