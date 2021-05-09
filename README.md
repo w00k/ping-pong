@@ -118,9 +118,11 @@ Para usar el apartado con **k8s**, es necesario crear un **namespace**, lo hice 
 
 ## Desplegando en k8s
 
+Creamos el **namespace** con el nombre **pingpong** (en los archivos **yaml** está especificado usar este **namespace**).
 ```bash
 kubectl create namespace pingpong
 ```
+
 Ahora podemos ingresar a la carpeta **k8s**. 
 ```bash
 cd k8s
@@ -139,13 +141,11 @@ kubectl apply -f ping.yaml
 ## Revisando el estado de los pods
 
 Ahora podemos ver el estado de los pods. 
-
 ```bash
 kubectl --namespace=pingpong get pod
 ```
 
 Debe aparecer algo similar a esta imagen.
-
 ![get pod](./img/k8s-get-pod.PNG)
 
 ## Probando los servicios
