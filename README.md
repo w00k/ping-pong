@@ -83,7 +83,7 @@ version: "3.8"
 
 services:
   app:
-    image: ping:latest
+    image: ping:v1
     environment:
        URL_PONG: "http://pong:8081/pong"
     depends_on:
@@ -92,7 +92,7 @@ services:
       - "8080:8080"
 
   pong:
-     image: pong:latest
+     image: pong:v1
 ```
 
 Levantamos los contenedores por medio de docker-compose. 
@@ -108,4 +108,71 @@ Para bajar el docker-compose, solo se debe ejecutar el sigueinte comando en dent
 
 ```bash
 docker-compose down 
+```
+
+## Usando K8S
+
+Para usar **k8s**, se puede armar el ambiente usando los templates en archivos **yaml**. En arvhivos encontrarás una sección asociado para el **deploy** y otro apartado para el **service**, adicionalmente el servicio pong está expuesto en el puerto 30001 y el servicio pong en el 30000, es decir se pueden consumir desde  forma local. 
+
+Para usar el apartado con **k8s**, es necesario crear un **namespace**, lo hice de esta forma porque es una buena practica. 
+
+```bash
+kubectl create namespace pingpong
+```
+
+Ahora podemos ingresar a la carpeta **k8s**. 
+
+```bash
+cd k8s
+```
+
+Y finalmente desplegamos, primero pong.
+
+```bash
+kubectl apply -f pong.yaml
+```
+
+Desplegamos ping. 
+
+```bash
+kubectl apply -f ping.yaml
+```
+
+Ahora podemos ver el estado de los pods. 
+
+```bash
+kubectl --namespace=pingpong get pod
+```
+
+Debe aparecer algo similar a esta imagen.
+
+![get pod](./img/k8s-get-pod.PNG)
+
+Para probar, para probar el servicio **ping** hay que ingresar a [http://localhost:30000/ping](http://localhost:30000/ping), la respuesta debería ser la siguiente.
+
+```json
+{"respond":"pong","send":"ping"}
+```
+
+Para probar el servicio **pong**, hay que ingresar a [http://localhost:30001/pong](http://localhost:30001/pong), la respuesta debe ser la siguiente. 
+
+```json
+{"message":"pong"}
+```
+
+Para desinstalar los **services** y el **deployments**, hay que ejecutar el comando **delete** por cada archivo **yaml** instalado.
+
+Desinstalando **deployment ping**. 
+```bash
+kubectl delete -f ping.yaml
+```
+
+Desinstalando **deployment pong**. 
+```bash
+kubectl delete -f pong
+```
+
+Eliminando el **namespace pingpong**.
+```bash
+kubectl delete namespace pingpong
 ```
