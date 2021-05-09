@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingservice
+  namespace: pingpong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: web
+  template:
+    metadata:
+      labels:
+        bb: web
+    spec:
+      containers:
+      - name: ping-service
+        image: w00kyx/ping:v1
+        env:
+        - name: URL_PONG
+          value: "http://pong-entrypoint:8081/pong"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ping-entrypoint
+  namespace: pingpong
+spec:
+  type: NodePort
+  selector:
+    bb: web
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30000
