@@ -172,7 +172,7 @@ kubectl delete -f ping.yaml
 
 Desinstalando **deployment pong**. 
 ```bash
-kubectl delete -f pong
+kubectl delete -f pong.yaml
 ```
 
 Eliminando el **namespace pingpong**.
